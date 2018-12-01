@@ -146,6 +146,13 @@
 
                         
                         <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/bbs/">BBS</a>
                         </li>
                         
@@ -154,13 +161,6 @@
                         
                         <li>
                             <a href="/archive/">Archives</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -235,6 +235,21 @@
 <h2 id="虚拟存储系统"><a href="#虚拟存储系统" class="headerlink" title="虚拟存储系统"></a>虚拟存储系统</h2><hr>
 <p><strong>请求分页系统</strong><br>页目录号|页表索引|页内偏移量|<br>:—:|:—:|:—:|</p>
 <p>对于一个这样的虚拟地址，注意区分”目录项”和”页表项”。假设页目录号10位,页表索引10位,页内偏移量12位:<br>\(目录项个数=2^页目录号\)<br>\(页表项个数=2^(32-12)\)<br>明确页表项就是整个虚拟存储系统有多少页,页目录和页表相当于一个二级分页,页目录第一页,页表索引第二页,页表项就是页表索引总和。</p>
+<h2 id="Cache和主存的映射方式"><a href="#Cache和主存的映射方式" class="headerlink" title="Cache和主存的映射方式"></a>Cache和主存的映射方式</h2><hr>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;Cache和Cache之间交换以字为单位，Cache和主存之间交换以块为单位。<br>&nbsp;&nbsp;&nbsp;&nbsp;Cache和主存之间的映射方式有3种：直接映射、全相联映射、组相联映射。</p>
+<ul>
+<li>直接映射：<br>&nbsp;&nbsp;&nbsp;&nbsp;Cache块对应主存中的唯一地址，映射关系为\(j=i \mod 2^c\)，j是Cache块号，i是主存块号，c是Cache总块数，地址结构为：<br>主存字块标记(TAG)|Cache字块地址|字块内地址|<br>:—:|:—:|:—:|</li>
+</ul>
+<ul>
+<li>全相联映射：<br>&nbsp;&nbsp;&nbsp;&nbsp;可以把主存块装入Cache任意位置，需要相联存储器，地址结构：<br>主存字块标记(TAG)|字块内地址|<br>:—:|:—:|</li>
+</ul>
+<ul>
+<li>组相联映射：<br>&nbsp;&nbsp;&nbsp;&nbsp;将Cache块分为空间大小相等的k组，主存块可以放入一组中的<strong>任意位置</strong>，组之间采用全相联映射，称为k路组相联。地址结构：<br>主存字块标记(TAG)|组地址|字块内地址|<br>:—:|:—:|:—:|<br>&nbsp;&nbsp;&nbsp;&nbsp;每个Cache行对应一个标记项，标记项包含有效位(1bit)、脏位(1bit，修改位，用于写回法等，不一定有)、替换控制位(1bit，用于LRU等页面替换算法等，不一定有)、主存字块标记(TAG)。直接映射一行就是一组，k路组相联每行有k个标记项，代表一组。<br>\(Cache总容量=Cache行数\ast标记项长度+主存块个数\ast每块容量\)</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;关于组相联映射的存储方式，有两种：</p>
+<blockquote>
+<p>首先说下面的问题吧。每个块是32个字，一个字是16位，故一个块是32*16=512bit<br>回到第一个问题 ：每组4个存储块就是4路组相联。一个组含有几个块就称为几路组相联。<br>组相联映射是全相联映射和直接映射的折中方案。它有两种方案，不同的教材有不同的说法。<br>最常见的的一种方案  是cache中的组直接映射到主存的块号中。怎么说呢？就是cache中有4个组，那么主存中的块就按组号来映射。举例说cache中有8块采用2路组相联，即有4组。分别是第0、1、2 、3组。主存中有16个块。块号是0~15，那么第0组中的两个块可以是主存中0、 4、 8、 12 中的任意两个块。这样cache的地址只分成  组号 块内地址 ，主存的地址 分成 主存标记 组号 快内地址 三个部分<br>而第二种方案要复杂一些但层次更明晰。它是将cache整个映射到主存中。它等于将主存化成了一个个区，每个区的大小和cache相同。仍是上个例子。那么第0组中的两个块分别映射为主存中的0、 1块 和8、 9块 。这样cache的地址只分成  组号 块内地址 ，主存的地址 分成 主存标记 区号 组号 快内地址 四个部分</p>
+</blockquote>
 <h2 id="Cache性能分析"><a href="#Cache性能分析" class="headerlink" title="Cache性能分析"></a>Cache性能分析</h2><hr>
 <p>\(存储器停顿时间周期数=缺失次数\ast缺失代价\)<br>\(CPU执行时间=（CPU时钟周期数+存储器停顿时间周期数）\ast时钟周期\)</p>
 <p>假定有一台计算机,当所有存储器访问操作都能在Cache中命中时, CPI为1.0;数据访问只有load和store指令,这些指令占全部指令的50%； 缺失代价为25个时钟周期,缺失率为2%.问当所有指令都在Cache中命中时, 计算机性能能提高多少？</p>
@@ -313,7 +328,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#存储系统"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">存储系统</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#虚拟存储系统"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">虚拟存储系统</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Cache性能分析"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Cache性能分析</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Cache性能改进"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Cache性能改进</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#文件管理"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">文件管理</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#杂项"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">杂项</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#存储系统"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">存储系统</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#虚拟存储系统"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">虚拟存储系统</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Cache和主存的映射方式"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Cache和主存的映射方式</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Cache性能分析"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Cache性能分析</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Cache性能改进"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Cache性能改进</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#文件管理"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">文件管理</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#杂项"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">杂项</span></a></li></ol>
         
         </div>
       </aside>
@@ -455,7 +470,7 @@
               
                 <span id="busuanzi_container_site_uv"><span id="busuanzi_value_site_uv"></span></span>
                 visitor since 2018/11/30,
-                <span class="post-count">5.1k words altogether</span>
+                <span class="post-count">5.8k words altogether</span>
                 <!-- End GoStats Simple HTML Based Code -->
                 </p>
             </div>
