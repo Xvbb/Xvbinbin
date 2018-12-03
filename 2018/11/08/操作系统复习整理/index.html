@@ -153,14 +153,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/bbs/">BBS</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/bbs/">BBS</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -238,154 +238,7 @@
 </tr>
 </tbody>
 </table>
-<p>&#160; &#160; &#160; &#160;设物理地址24位，页大小为\(2^k\)B，那么页内偏移量就是k位，块号为\(24-k\)位。<br>&#160; &#160; &#160; &#160;为了增大计算机的编程可用地址空间，又引入虚拟存储系统。逻辑地址的构成和物理地址类似:</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">页号</th>
-<th style="text-align:center">页内偏移</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"></td>
-</tr>
-</tbody>
-</table>
-<p>逻辑地址和物理地址的页内偏移量是相同的。通过逻辑地址寻找物理地址首先计算页内偏移量\(W\)和页号\(P\)，页号\(P\)和页表寄存器中的页表长度\(M\)比较，判断是否越界，若越界则产生越界终端。没有越界的话，页表寄存器中的页表起始地址\(F\)+\(P\)得到该页号在页表中的地址，查页表得到物理块号\(b\)，\(b\)+\(W\)即所求物理地址。</p>
-<p>&#160; &#160; &#160; &#160;考点多围绕页表进行考察。页表是逻辑页号和物理块号之间的映射。页表项由物理块号和若干标记项组成，长度不定。页表长度=页表项的个数=页号数=\(2^P\)，含义是整个逻辑空间都可寻址。页表大小=页表项个数*每个页表项的位数。  需要注意计算长度时的单位都是B，当计算得到的页表项长度非8整数倍时，向上取整。</p>
-<p>&#160; &#160; &#160; &#160;页表一般存储在内存中，每次访问页表得到物理块号后，需要访存一次取物理地址上的数据。引入快表TLB(联想寄存器)加快查询。快表中存储的是页表的一部分副本，查询时先访问快表，若有匹配项直接访问，访存0次；如果没有则访问页表，页表中如果有该映射，匹配后访问，访存1次。如果页表里也没有，产生缺页中断，在外存中找到缺页，如果内存满执行页面置换算法，结果为外存中的一页换入内存中。修改页表加入本次映射，再访问一次，总计访存2次。逻辑地址到物理地址的访存次数这一考点要牢记。</p>
-<p>&#160; &#160; &#160; &#160;段式存储系统是为了编程需要，由逻辑地址转化为物理地址时，通过段表映射获得基址，基址+段内偏移量，得到物理地址。<br>&#160; &#160; &#160; &#160;段页式存储系统的结构为：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">段号</th>
-<th style="text-align:center">页号</th>
-<th style="text-align:center">页内偏移</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"></td>
-</tr>
-</tbody>
-</table>
-<p>每一段都有一张页表，通过段表确认页表所在段-&gt;通过页表确认物理块号，物理块号+页内偏移量，得到物理地址。</p>
-<h2 id="虚拟存储系统"><a href="#虚拟存储系统" class="headerlink" title="虚拟存储系统"></a>虚拟存储系统</h2><hr>
-<p><strong>请求分页系统</strong></p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">页目录号</th>
-<th style="text-align:center">页表索引</th>
-<th style="text-align:center">页内偏移量</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"></td>
-</tr>
-</tbody>
-</table>
-<p>对于一个这样的虚拟地址，注意区分”目录项”和”页表项”。假设页目录号10位,页表索引10位,页内偏移量12位:<br>\(目录项个数=2^(页目录号)\)<br>\(页表项个数=2^20\)<br>明确页表项就是整个虚拟存储系统有多少页,页目录和页表相当于一个二级分页,页目录第一页,页表索引第二页,页表项就是页表索引总和。</p>
-<h2 id="Cache和主存的映射方式"><a href="#Cache和主存的映射方式" class="headerlink" title="Cache和主存的映射方式"></a>Cache和主存的映射方式</h2><hr>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;Cache和Cache之间交换以字为单位，Cache和主存之间交换以块为单位。<br>&nbsp;&nbsp;&nbsp;&nbsp;Cache和主存之间的映射方式有3种：直接映射、全相联映射、组相联映射。</p>
-<ul>
-<li>直接映射：<br>&nbsp;&nbsp;&nbsp;&nbsp;Cache块对应主存中的唯一地址，映射关系为\(j=i \mod 2^c\)，j是Cache块号，i是主存块号，c是Cache总块数，地址结构为：</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">主存字块标记(TAG)</th>
-<th style="text-align:center">Cache字块地址</th>
-<th style="text-align:center">字块内地址</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"></td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>全相联映射：<br>&nbsp;&nbsp;&nbsp;&nbsp;可以把主存块装入Cache任意位置，需要相联存储器，地址结构：</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">主存字块标记(TAG)</th>
-<th style="text-align:center">字块内地址</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"></td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>组相联映射：<br>&nbsp;&nbsp;&nbsp;&nbsp;将Cache块分为空间大小相等的k组，主存块可以放入一组中的<strong>任意位置</strong>，组之间采用全相联映射，称为k路组相联。地址结构：</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">主存字块标记(TAG)</th>
-<th style="text-align:center">组地址</th>
-<th style="text-align:center">字块内地址</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"></td>
-</tr>
-</tbody>
-</table>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;每个Cache行对应一个标记项，标记项包含有效位(1bit)、脏位(1bit，修改位，用于写回法等，不一定有)、替换控制位(1bit，用于LRU等页面替换算法等，不一定有)、主存字块标记(TAG)。直接映射一行就是一组，k路组相联每行有k个标记项，代表一组。<br>\(Cache总容量=Cache行数\ast标记项长度+主存块个数\ast每块容量\)</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;关于组相联映射的存储方式，有两种：</p>
-<blockquote>
-<p>首先说下面的问题吧。每个块是32个字，一个字是16位，故一个块是32*16=512bit<br>回到第一个问题 ：每组4个存储块就是4路组相联。一个组含有几个块就称为几路组相联。<br>组相联映射是全相联映射和直接映射的折中方案。它有两种方案，不同的教材有不同的说法。<br>最常见的的一种方案  是cache中的组直接映射到主存的块号中。怎么说呢？就是cache中有4个组，那么主存中的块就按组号来映射。举例说cache中有8块采用2路组相联，即有4组。分别是第0、1、2 、3组。主存中有16个块。块号是0~15，那么第0组中的两个块可以是主存中0、 4、 8、 12 中的任意两个块。这样cache的地址只分成  组号 块内地址 ，主存的地址 分成 主存标记 组号 快内地址 三个部分<br>而第二种方案要复杂一些但层次更明晰。它是将cache整个映射到主存中。它等于将主存化成了一个个区，每个区的大小和cache相同。仍是上个例子。那么第0组中的两个块分别映射为主存中的0、 1块 和8、 9块 。这样cache的地址只分成  组号 块内地址 ，主存的地址 分成 主存标记 区号 组号 快内地址 四个部分</p>
-</blockquote>
-<h2 id="Cache性能分析"><a href="#Cache性能分析" class="headerlink" title="Cache性能分析"></a>Cache性能分析</h2><hr>
-<p>\(存储器停顿时间周期数=缺失次数\ast缺失代价\)<br>\(CPU执行时间=（CPU时钟周期数+存储器停顿时间周期数）\ast时钟周期\)</p>
-<p>假定有一台计算机,当所有存储器访问操作都能在Cache中命中时, CPI为1.0;数据访问只有load和store指令,这些指令占全部指令的50%； 缺失代价为25个时钟周期,缺失率为2%.问当所有指令都在Cache中命中时, 计算机性能能提高多少？</p>
-<p>\(实际CPU执行时间=(指令数\times CPI+指令数\times(1+50\%)\times0.02\times25)\)</p>
-<h2 id="Cache性能改进"><a href="#Cache性能改进" class="headerlink" title="Cache性能改进"></a>Cache性能改进</h2><hr>
-<ul>
-<li>减少失效开销<ol>
-<li>使读失效优先于写</li>
-<li>写缓冲合并</li>
-<li>请求字处理技术</li>
-<li>非阻塞Cache技术</li>
-<li>采用两级Cache<br><br></li>
-</ol>
-</li>
-<li>减少命中时间<ol>
-<li>采用容量小,结构简单的Cache</li>
-<li>虚拟Cache</li>
-<li>Cache访问流水化</li>
-<li>Trace Cache:存放CPU执行的动态指令<br><br></li>
-</ol>
-</li>
-<li>降低失效率<ol>
-<li>强制性失效:  增加块大小,预取Cache</li>
-<li>容量失效:    增加容量</li>
-<li>冲突失效:    提高相联度</li>
-</ol>
-</li>
-</ul>
-<h2 id="文件管理"><a href="#文件管理" class="headerlink" title="文件管理"></a>文件管理</h2><hr>
-<p>使用簇的文件系统,文件分配以簇为单位</p>
-<h2 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h2><hr>
-<ol>
-<li>可提高同步总线数据传输率的方式:总价总线宽度,提高总线工作频率</li>
-<li>当定时器产生终端,由时钟终端服务程序更新的部分:所有和时间相关的内容,包括内核中时钟变了的值、当前进程中占用CPU的时间、当前进程在时间片的剩余执行时间</li>
-<li>可以提高文件访问速度的方法：提前读、为文件分配连续的簇、延迟写、采用磁盘高速缓存</li>
-<li>实现让权等待的方式：信号量方法</li>
-<li>多道程序设计的优点：CPU利用率高、系统吞吐量大、IO设备利用率高</li>
-<li>基于时间片的进程调度，当前进程时间片用完后，由运行态变为就绪态</li>
-<li>DMA方式读磁盘流程:初始化DMA控制器并启动磁盘-&gt;从磁盘传输一块数据到缓冲区-&gt;DMA控制器发出中断请求-&gt;执行”DMA结束”中断程序</li>
-<li>磁盘逻辑格式化所做的工作:监理文件系统的根目录、对保存空闲磁盘块信息的数据进行初始化</li>
-</ol>
+<p>123</p>
 
                 
 
@@ -423,7 +276,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#存储系统"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">存储系统</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#虚拟存储系统"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">虚拟存储系统</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Cache和主存的映射方式"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Cache和主存的映射方式</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Cache性能分析"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Cache性能分析</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Cache性能改进"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Cache性能改进</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#文件管理"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">文件管理</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#杂项"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">杂项</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#存储系统"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">存储系统</span></a></li></ol>
         
         </div>
       </aside>
@@ -565,7 +418,7 @@
               
                 <span id="busuanzi_container_site_uv"><span id="busuanzi_value_site_uv"></span></span>
                 visitor since 2018/11/30,
-                <span class="post-count">5.8k words altogether</span>
+                <span class="post-count">3.6k words altogether</span>
                 <!-- End GoStats Simple HTML Based Code -->
                 </p>
             </div>
