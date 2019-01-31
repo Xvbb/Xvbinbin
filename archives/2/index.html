@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Thinking of NAK protocol - Xvbinbin Blog
+          Xvbinbin Blog
         
     </title>
 
-    <link rel="canonical" href="https://yoursite/2018/11/15/关于NAK协议的一个问题/">
+    <link rel="canonical" href="https://yoursite/archives/2/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -69,8 +69,8 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('header.jpeg')
-            /*post*/
+            background-image: url('/img/header_img/home-bg-2-dark.png') 
+            /*config*/
         
     }
     
@@ -87,20 +87,10 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
-                    <div class="post-heading">
-                        <div class="tags">
-                            
-                              <a class="tag" href="/tags/#考研" title="考研">考研</a>
-                            
-                              <a class="tag" href="/tags/#网络" title="网络">网络</a>
-                            
-                        </div>
-                        <h1>Thinking of NAK protocol</h1>
-                        <h2 class="subheading">关于NAK协议的一个问题</h2>
-                        <span class="meta">
-                            Posted by 徐斌斌 on
-                            2018-11-15
-                        </span>
+                    <div class="site-heading">
+                        <h1>徐斌斌的博客</h1>
+                        <!--<hr class="small">-->
+                        <span class="subheading">Xvbinbin Blog</span>
                     </div>
                 
 
@@ -210,170 +200,268 @@
 
 
     <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
+    <!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
 
-<!-- Post Content -->
-<article>
-    <div class="container">
-        <div class="row">
-
-            <!-- Post Container -->
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                post-container">
-
-                <p>ecnu 2015年825网络大题：<br>考虑一个仅使用否定确认帧(NAK)但没有肯定确认帧(ACK)的ARQ协议。请说明：如何为该协议设计超时？基于ACK的协议和基于NAK的协议相比较通常哪个更合适？</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;Automatic Repeat-reQuest，自动重传协议是数据链路层的错误纠正协议。<br>如果使用ACK帧，那么每次接收方收到数据后，返回一个含ACK的报文，ACK数据x表示x之前的数据全部正确接受。<br>如果使用NAK协议，那么每当接收方发现报文丢失/检验有误/超时等情况时，需要等待到下一个报文到达时，才能把NAK帧发送给发送方，通知错误。也就是说，接收方收到x-1和x+1后，才能把有问题的x反馈给发送方。发送方可能要很久才能知道先前的某个报文出错。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;当数据发送频繁，且通信错误率时，NAK有较好的性能。频繁的数据接受，使NAK及时发现错误；低错误率，减少的NAK报文的发送。在这种情况下，较ACK，基于NAK的协议有更好的性能。</p>
-<p>参考网络解释：</p>
-<blockquote>
-<p>(10%) Consider a reliable data transfer protocol that uses only negative<br>acknowledgments. Suppose the sender sends data only infrequently. Would a<br>NAK-only protocol be preferable to a protocol that uses ACKs? Why?<br>No.<br>In a NAK only protocol, the loss of packet x is only detected by the receiver when<br>packet x+1 is received. That is, the receivers receives x-1 and then x+1, only<br>when x+1 is received does the receiver realize that x was missed. If there is a long<br>delay between the transmission of x and the transmission of x+1, then it will be a<br>long time until x can be recovered, under a NAK only protocol.<br>If the sender sends the data infrequently (occasionally), then the NAK-only protocol is not preferred. It is good to use the protocol that uses ACKs.</p>
-</blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
-<blockquote>
-<p>The main disadvantage of NAK-only protocol is that it can detect that the packet has been lost only when the next packet is received by the receiver.<br>The NAK-only protocol realize the loss of packet after a long time when it receives the data packet with wrong sequence number as the sender sends the data packets occasionally.<br>When the receiver realize the packet loss, it sends NAK to the sender and the sender has to retransmit both the lost and next packet.<br>If the sender sends the data frequently, then the NAK-only protocol is preferred. The protocol that uses ACKs is not preferred as it require to send more number of acknowledgements.<br> When the sender sends data frequently and the data loss rate is very less, then a NAK-only protocol is preferable to a protocol that uses ACKs.<br>The receiver sends the NAK as it realizes the packet loss quickly as the data transmitted frequently.<br>Since the data loss is less, the number of NAK in NAK-only protocol is less when compared with protocol that uses ACKs.</p>
-</blockquote>
-
-                
-
-                <hr>
-                <!-- Pager -->
-                <ul class="pager">
-                    
-                        <li class="previous">
-                            <a href="/2018/11/15/关于第二型曲线积分在空间曲线下的思考/" data-toggle="tooltip" data-placement="top" title="Thinking of Second type curvilinear integral">&larr; Previous Post</a>
-                        </li>
-                    
-                    
-                        <li class="next">
-                            <a href="/2018/11/08/操作系统复习整理/" data-toggle="tooltip" data-placement="top" title="Review of operating system">Next Post &rarr;</a>
-                        </li>
-                    
-                </ul>
-
-                <!--PC版-->
-                <div id="SOHUCS"></div>
-                <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
-                <script type="text/javascript">
-                window.changyan.api.config({
-                    appid: 'cytWy3qtk',
-                    conf: 'prod_467d4f93001fafa948ce1f9e6c10dde3'
-                });
-                </script>
-            </div>    
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
             
-            <!-- Tabe of Content -->
-            <!-- Table of Contents -->
+                <!-- Main Content -->
 
-    
-      <aside id="sidebar">
-        <div id="toc" class="toc-article">
-        <strong class="toc-title">Contents</strong>
-        
-          <ol class="nav">none</ol>
-        
+
+<div class="post-preview">
+
+    <a href="/2018/11/08/操作系统复习整理/">
+        <h2 class="post-title">
+            
+            Review of operating system
+        </h2>
+        <h3 class="post-subtitle">
+            操作系统复习整理
+        </h3>
+        <div class="post-content-preview">
+            存储系统
+&#160; &#160; &#160; &#160;在页式存储系统中，物理地址的结构是这样的：
+
+
+
+块号
+页内偏移
+
+
+
+
+
+
+
+
+&#160; &#160; &#160; &#160;设物理地址24位，页大小为\(2^k\)B，那么页内偏移量就是k位，块号为\(24-k\)位。&#160; &#160; &#160; &#160;为了增大计算机的编程可用地址空间，又引入虚拟存......
         </div>
-      </aside>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 徐斌斌 on
+            2018-11-08
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#考研" title="考研">考研</a>
+            
+              <a href="/tags/#操作系统" title="操作系统">操作系统</a>
+            
+        </div>
     
 
-                
-            <!-- Sidebar Container -->
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                sidebar-container">
+</div>
+<hr>
 
-                <!-- Featured Tags -->
-                
-                <section>
-                    <!-- no hr -->
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-                    <div class="tags">
-                       
-                          <a class="tag" href="/tags/#考研" title="考研">考研</a>
-                        
-                          <a class="tag" href="/tags/#网络" title="网络">网络</a>
-                        
-                    </div>
-                </section>
-                
+<div class="post-preview">
 
-                <!-- Friends Blog -->
-                
-                <hr>
-                <h5>FRIENDS</h5>
-                <ul class="list-inline">
+    <a href="/2018/11/08/个人博客搭建/">
+        <h2 class="post-title">
+            
+            First aticle
+        </h2>
+        <h3 class="post-subtitle">
+            个人博客搭建随笔
+        </h3>
+        <div class="post-content-preview">
+            2018年11月，44天后考研华东师范大学。搭建了个人博客，用以记录现阶段考研复习重点、随笔和将来学习、工作的总结和体会。
+珍惜时间，为了可能的梦想加油。
+...
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 徐斌斌 on
+            2018-11-08
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#随笔" title="随笔">随笔</a>
+            
+        </div>
+    
 
-                    
-                        <li><a href="" target="_blank">null</a></li>
-                    
-                </ul>
+</div>
+<hr>
+
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+        <li class="previous">
+            <a href="/">&larr; Newer Posts</a>
+        </li>
+    
+    
+</ul>
+
+
+
+                <!-- 如果开启评论功能 -->
                 
             </div>
-        </div>
+
+          <!-- Sidebar Container -->
+<div class="
+    col-lg-3 col-lg-offset-0
+    col-md-3 col-md-offset-0
+    col-sm-12
+    col-xs-12
+    sidebar-container
+">
+    
+        <!-- Featured Tags -->
+
+<section>
+    <!-- no hr -->
+    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
+            
+            <a href="/tags/#数学" title="数学" rel="3">数学</a>
+            
+        
+            
+            <a href="/tags/#考研" title="考研" rel="8">考研</a>
+            
+        
+            
+        
+            
+        
+            
+            <a href="/tags/#Algorithm" title="Algorithm" rel="2">Algorithm</a>
+            
+        
+            
+            <a href="/tags/#组成原理" title="组成原理" rel="2">组成原理</a>
+            
+        
+            
+        
+            
+        
+            
+        
     </div>
-</article>
+</section>
 
+        <hr>
+    
+        <!-- Short About -->
+<section class="visible-md visible-lg">
+    <h5><a href="/about/">ABOUT ME</a></h5>
+    <div class="short-about">
 
-<!-- disqus embedded js code start (one page only need to embed once) -->
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES * * */
-    var disqus_shortname = "your-disqus-ID";
-    var disqus_identifier = "https://yoursite/2018/11/15/关于NAK协议的一个问题/";
-    var disqus_url = "https://yoursite/2018/11/15/关于NAK协议的一个问题/";
+        
+            <img id="avatar_pic" src="/img/ironman-draw.png">
+        
 
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<!-- disqus embedded js code start end -->
+        
+            <p>Hi, i&#39;m XvBinbin</p>
+        
 
+        <!-- SNS Link -->
+        <ul class="list-inline">
+            
+            
+            
 
+            
 
+            
 
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
-<script>
-    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
-        anchors.options = {
-          visible: 'hover',
-          placement: 'left',
-          icon: 'ℬ'
-        };
-        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
-    })
-</script>
+            
+                <li>
+                    <a target="_blank" href="https://github.com/Xvbb">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
+            
+            
+            
+        </ul>
+    </div>
+</section>
+        <hr>
+    
+        
+  <h5>RECENT POSTS
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="/2019/01/31/My-c-c-template-on-VS-code/">My c/c++ template on VS code</a>
+        </li>
+      
+        <li>
+          <a href="/2019/01/31/Study-Algorithm/">Study Algorithm</a>
+        </li>
+      
+        <li>
+          <a href="/2019/01/31/PAT-Advanced-Level-Practice/">PAT (Advanced Level) Practice</a>
+        </li>
+      
+        <li>
+          <a href="/2018/12/03/Thinking-of-Cache-hit-Rate/">Thinking of Cache hit Rate</a>
+        </li>
+      
+        <li>
+          <a href="/2018/12/01/Review-of-math-for-NEEP/">Review of math for NEEP</a>
+        </li>
+      
+    </ul>
+  </div>
+</h5>
+        <hr>
+    
+        <!-- Friends Blog -->
 
+<h5>FRIENDS</h5>
+<ul class="list-inline">
 
+    
+        <li><a href="" target="_blank">null</a></li>
+    
+</ul>
 
-<style>
-    /* place left on bigger screen */
-    @media all and (min-width: 800px) {
-        .anchorjs-link{
-            position: absolute;
-            left: -0.75em;
-            font-size: 1.1em;
-            margin-top : -0.1em;
-        }
-    }
-</style>
+        <hr>
+    
+        
+    <h5>ARCHIVES</h5>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">7</span></li></ul>
+    </div>
 
+        <hr>
+    
+        <!-- Categories -->
 
-<script type="text/javascript" src="/js/zooming.js"></script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+        <hr>
+    
+</div>
+
+        
+    </div>
+</div>
+
 
     <!-- Footer -->
     <!-- Footer -->

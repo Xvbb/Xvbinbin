@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Thinking of NAK protocol - Xvbinbin Blog
+          PAT (Advanced Level) Practice - Xvbinbin Blog
         
     </title>
 
-    <link rel="canonical" href="https://yoursite/2018/11/15/关于NAK协议的一个问题/">
+    <link rel="canonical" href="https://yoursite/2019/01/31/PAT-Advanced-Level-Practice/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -69,7 +69,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('header.jpeg')
+            background-image: url('')
             /*post*/
         
     }
@@ -90,16 +90,16 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#考研" title="考研">考研</a>
+                              <a class="tag" href="/tags/#PAT" title="PAT">PAT</a>
                             
-                              <a class="tag" href="/tags/#网络" title="网络">网络</a>
+                              <a class="tag" href="/tags/#Algorithm" title="Algorithm">Algorithm</a>
                             
                         </div>
-                        <h1>Thinking of NAK protocol</h1>
-                        <h2 class="subheading">关于NAK协议的一个问题</h2>
+                        <h1>PAT (Advanced Level) Practice</h1>
+                        <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by 徐斌斌 on
-                            2018-11-15
+                            2019-01-31
                         </span>
                     </div>
                 
@@ -223,18 +223,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>ecnu 2015年825网络大题：<br>考虑一个仅使用否定确认帧(NAK)但没有肯定确认帧(ACK)的ARQ协议。请说明：如何为该协议设计超时？基于ACK的协议和基于NAK的协议相比较通常哪个更合适？</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;Automatic Repeat-reQuest，自动重传协议是数据链路层的错误纠正协议。<br>如果使用ACK帧，那么每次接收方收到数据后，返回一个含ACK的报文，ACK数据x表示x之前的数据全部正确接受。<br>如果使用NAK协议，那么每当接收方发现报文丢失/检验有误/超时等情况时，需要等待到下一个报文到达时，才能把NAK帧发送给发送方，通知错误。也就是说，接收方收到x-1和x+1后，才能把有问题的x反馈给发送方。发送方可能要很久才能知道先前的某个报文出错。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;当数据发送频繁，且通信错误率时，NAK有较好的性能。频繁的数据接受，使NAK及时发现错误；低错误率，减少的NAK报文的发送。在这种情况下，较ACK，基于NAK的协议有更好的性能。</p>
-<p>参考网络解释：</p>
-<blockquote>
-<p>(10%) Consider a reliable data transfer protocol that uses only negative<br>acknowledgments. Suppose the sender sends data only infrequently. Would a<br>NAK-only protocol be preferable to a protocol that uses ACKs? Why?<br>No.<br>In a NAK only protocol, the loss of packet x is only detected by the receiver when<br>packet x+1 is received. That is, the receivers receives x-1 and then x+1, only<br>when x+1 is received does the receiver realize that x was missed. If there is a long<br>delay between the transmission of x and the transmission of x+1, then it will be a<br>long time until x can be recovered, under a NAK only protocol.<br>If the sender sends the data infrequently (occasionally), then the NAK-only protocol is not preferred. It is good to use the protocol that uses ACKs.</p>
-</blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
-<blockquote>
-<p>The main disadvantage of NAK-only protocol is that it can detect that the packet has been lost only when the next packet is received by the receiver.<br>The NAK-only protocol realize the loss of packet after a long time when it receives the data packet with wrong sequence number as the sender sends the data packets occasionally.<br>When the receiver realize the packet loss, it sends NAK to the sender and the sender has to retransmit both the lost and next packet.<br>If the sender sends the data frequently, then the NAK-only protocol is preferred. The protocol that uses ACKs is not preferred as it require to send more number of acknowledgements.<br> When the sender sends data frequently and the data loss rate is very less, then a NAK-only protocol is preferable to a protocol that uses ACKs.<br>The receiver sends the NAK as it realizes the packet loss quickly as the data transmitted frequently.<br>Since the data loss is less, the number of NAK in NAK-only protocol is less when compared with protocol that uses ACKs.</p>
-</blockquote>
-
+                
                 
 
                 <hr>
@@ -242,12 +231,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2018/11/15/关于第二型曲线积分在空间曲线下的思考/" data-toggle="tooltip" data-placement="top" title="Thinking of Second type curvilinear integral">&larr; Previous Post</a>
+                            <a href="/2019/01/31/Study-Algorithm/" data-toggle="tooltip" data-placement="top" title="Study Algorithm">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2018/11/08/操作系统复习整理/" data-toggle="tooltip" data-placement="top" title="Review of operating system">Next Post &rarr;</a>
+                            <a href="/2018/12/03/Thinking-of-Cache-hit-Rate/" data-toggle="tooltip" data-placement="top" title="Thinking of Cache hit Rate">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -291,9 +280,9 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#考研" title="考研">考研</a>
+                          <a class="tag" href="/tags/#PAT" title="PAT">PAT</a>
                         
-                          <a class="tag" href="/tags/#网络" title="网络">网络</a>
+                          <a class="tag" href="/tags/#Algorithm" title="Algorithm">Algorithm</a>
                         
                     </div>
                 </section>
@@ -320,8 +309,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "your-disqus-ID";
-    var disqus_identifier = "https://yoursite/2018/11/15/关于NAK协议的一个问题/";
-    var disqus_url = "https://yoursite/2018/11/15/关于NAK协议的一个问题/";
+    var disqus_identifier = "https://yoursite/2019/01/31/PAT-Advanced-Level-Practice/";
+    var disqus_url = "https://yoursite/2019/01/31/PAT-Advanced-Level-Practice/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
