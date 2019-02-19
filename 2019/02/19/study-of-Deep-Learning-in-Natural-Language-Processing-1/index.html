@@ -146,14 +146,7 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/bbs/">BBS</a>
                         </li>
                         
                     
@@ -167,7 +160,14 @@
 
                         
                         <li>
-                            <a href="/bbs/">BBS</a>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -225,7 +225,8 @@
 
                 <h1 id="从统计建模到深度学习"><a href="#从统计建模到深度学习" class="headerlink" title="从统计建模到深度学习"></a>从统计建模到深度学习</h1><h2 id="域检测与意图确定"><a href="#域检测与意图确定" class="headerlink" title="域检测与意图确定"></a>域检测与意图确定</h2><p>深度信念网络(deep belief networks, DBNs)是一堆受限的Boltzmann机，是可以在无监督情况下进行有效训练的双层网络。<br>深度凸网(deep compex net, DCN)是一种规则的前馈神经网络，输入向量也被考虑在每个隐藏层。在准确率、性能和可拓展性上优于DBN。DCN架构如下图，W为输入，U为权重在给定目标向量t的情况下，损失函数为均方差，使用DBN进行预训练。<br><img src="1.png" alt="" title="A typical DCN architecture"></p>
 <p>现在的技术水平下，通常用卷积神经网络(convolutional neural networks, CNNs)。<br><img src="2.png" alt="" title="A typical CNN architecture"><br>过滤器U被应用于输入句子中h个单词的窗口，从而产生一个新的特征ci。例如<img src="3.png" alt=""><br>其中其中b为偏差，<strong>W</strong>为单词输入向量，<strong>ci</strong>为新特征。然后，在<strong>c</strong> = [c1, c2，…]上应用max-over-time池操作。,cn−h + 1]最大的价值功能,cˆ= max<strong>c</strong>。这些特征值被传递到softmax层，其输出为标签的概率分布：<img src="4.png" alt=""></p>
-
+<p>之后还有人建立了复发神经网络(recurrent neural networks, RNN)编码器，进行前馈网络训练并与常规CNN进行比对。也有不进行前馈或者卷积神经网络进行语音识别的，简单地使用RNN编码器对句子末尾标记对类进行解码的语句进行建模。因为没有与CNN和DNN进行结果对比，具有良好拓展性，可以很容易的拓展成双向RNN，加载句首作为类(“load the begin-of-sentence token as the class”)。</p>
+<h2 id="填槽"><a href="#填槽" class="headerlink" title="填槽"></a>填槽</h2>
                 
 
                 <hr>
@@ -258,7 +259,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#从统计建模到深度学习"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">从统计建模到深度学习</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#域检测与意图确定"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">域检测与意图确定</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#从统计建模到深度学习"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">从统计建模到深度学习</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#域检测与意图确定"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">域检测与意图确定</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#填槽"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">填槽</span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -400,7 +401,7 @@
               
                 <span id="busuanzi_container_site_uv"><span id="busuanzi_value_site_uv"></span></span>
                 visitor since 2018/11/30,
-                <span class="post-count">9.2k words altogether</span>
+                <span class="post-count">9.3k words altogether</span>
                 <!-- End GoStats Simple HTML Based Code -->
                 </p>
             </div>
