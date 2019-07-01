@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          PAT Practice - Xvbinbin Blog
+          study of Speech and Language Processing（1） - Xvbinbin Blog
         
     </title>
 
-    <link rel="canonical" href="https://yoursite/2019/01/31/PAT-Practice/">
+    <link rel="canonical" href="https://yoursite/2019/02/21/study-of-Speech-and-Language-Processing/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -90,16 +90,16 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#PAT" title="PAT">PAT</a>
+                              <a class="tag" href="/tags/#NLP" title="NLP">NLP</a>
                             
-                              <a class="tag" href="/tags/#Algorithm" title="Algorithm">Algorithm</a>
+                              <a class="tag" href="/tags/#读书笔记" title="读书笔记">读书笔记</a>
                             
                         </div>
-                        <h1>PAT Practice</h1>
-                        <h2 class="subheading">PAT练习</h2>
+                        <h1>study of Speech and Language Processing（1）</h1>
+                        <h2 class="subheading">《自然语言处理综论》学习笔记(1)</h2>
                         <span class="meta">
                             Posted by 徐斌斌 on
-                            2019-01-31
+                            2019-02-21
                         </span>
                     </div>
                 
@@ -223,7 +223,22 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p><a href="https://github.com/Xvbb/PAT-Practice" target="_blank" rel="noopener">cpp代码</a></p>
+                <h1 id="标准化-normalization"><a href="#标准化-normalization" class="headerlink" title="标准化(normalization)"></a>标准化(normalization)</h1><hr>
+<h2 id="Unix命令"><a href="#Unix命令" class="headerlink" title="Unix命令"></a>Unix命令</h2><p>&nbsp; &nbsp;&nbsp; &nbsp;通过Unix命令可以简单的实现对文本的标准化分割，例如：<br><code>tr -sc ’A-Za-z’ ’\n’ &lt; sh.txt | tr A-Z a-z | sort | uniq -c | sort -n -r</code><br>将sh.txt文件中句子分割成单行单词并统计出现次数，按照降序排列。<br>仅仅Unix的简单功能是不够用的，需要更多的标准化算法来执行语料分割。</p>
+<h2 id="记号赋予器-tokenizer"><a href="#记号赋予器-tokenizer" class="headerlink" title="记号赋予器(tokenizer)"></a>记号赋予器(tokenizer)</h2><p>&nbsp; &nbsp;&nbsp; &nbsp;在字母表示的语言中有很多的缩写单词，比如”we’re”,”where’re”，在识别的时候，记号赋予器将他们拆分为”we are”、”where are” are。根据应用程序的不同，将诸如”New York”、”rock ’n’ roll”这样多单词表示，识别为一个标记。标记化与命名实体检测、名称、日期和组织的检测任务紧密相关。</p>
+<h2 id="Penn-Treebank-tokenization-standard"><a href="#Penn-Treebank-tokenization-standard" class="headerlink" title="Penn Treebank tokenization standard"></a>Penn Treebank tokenization standard</h2><p>&nbsp; &nbsp;&nbsp; &nbsp;语言数据协会(LDC)发布的语料库收集了许多有用数据集，这个标准区分了<strong>‘</strong>连字符，如将doesn’t变成does not。举例：<br>![][1.png “”]</p>
+<h2 id="大小写折叠-case-folding"><a href="#大小写折叠-case-folding" class="headerlink" title="大小写折叠(case folding)"></a>大小写折叠(case folding)</h2><p>&nbsp; &nbsp;&nbsp; &nbsp;在语音识别和信息检索中，将所有单词小写化是一种有效的处理方式。但是在情感分析等文本处理、机器翻译、信息提取中，应当避免这种处理。因为可能会造成损失，例如US和us的差异。</p>
+<hr>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;记号化是语言处理的第一步，所以对速度有很高要求。因此标记化/非标计划的标准方法是，使用基于正则表达式的算法编译成有限状态机。精细设计的算法能用已处理歧义，比如<strong>‘</strong>作为属格标记如书的封面、<strong>“”</strong>用作引用、附着词如we’re。</p>
+<h1 id="汉语字符分割：最大匹配算法"><a href="#汉语字符分割：最大匹配算法" class="headerlink" title="汉语字符分割：最大匹配算法"></a>汉语字符分割：最大匹配算法</h1><hr>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;汉语、日文等语言，没有空格作为词语间的分隔符。例如汉字作为汉语的语素，通常由若干个汉字组成一个词语，平均长度2.4个字。以贪心算法为基础的分割算法( <strong>maximum matching</strong>,有时称为 <strong>MaxMatch</strong>)，在汉语分割中效果显著。这类算法需要一个词典用作检索。从字符串的首位开始，尾指针下移，检索字典是否有对大长度匹配的条项，如果有，头指针移到尾指针处，如果没有，分割出单个头指针处的汉字。以上循环处理。算法示意如图：<br><img src="2.png" alt="" title="伪代码示例"><br>&nbsp; &nbsp;&nbsp; &nbsp;该算法在英语中并不好用，因为英语单词的构成不如汉字严密，很有可能会产生多种匹配，偏离文本愿意。例如：<br><img src="3.png" alt="" title="英语环境下最大匹配算法的效果"><br>将输出分段与完美的手工分段句子进行比较，单词错误率就是<strong>最小编辑距离</strong>：\(\frac{单词插入、删除和替换的数量}{单词中完美分段语句的长度}\)。最大匹配算法遇到词典中不存在的词，或者词义与字典所存不一致时，会产生问题。最准确的中文分割算法一般采用人工分割训练集上经过监督机器学习训练的统计序列模型。</p>
+<h2 id="词形还原和词干提取-Lemmatization-and-Stemming"><a href="#词形还原和词干提取-Lemmatization-and-Stemming" class="headerlink" title="词形还原和词干提取(Lemmatization and Stemming)"></a>词形还原和词干提取(Lemmatization and Stemming)</h2><hr>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;在很多语言处理环境，希望不同形式的词语具有接近的意思，通过词形还原和词干提取实现。最复杂的词形还原方法涉及到对单词进行完整的形态分析。<br>&nbsp; &nbsp;&nbsp; &nbsp;词语由较小的词素组成，词素分为词干和词缀。词干(stems)是词根的主体，词缀(affixes)是词义的附加。例如cats，词干是cat，-s表示复数。</p>
+<h2 id="Porter-Stemmer算法"><a href="#Porter-Stemmer算法" class="headerlink" title="Porter Stemmer算法"></a>Porter Stemmer算法</h2><p>&nbsp; &nbsp;&nbsp; &nbsp;词形还原算法可能很复杂，引入词干分析，简单粗糙的截断词尾词缀。最广泛使用的便是Porter算法。基于一系列字符串重写规则，把每一次的输出作为下一次的输入。例如：<br>ATIONAL → ATE (e.g., relational → relate)<br>ING → ε if stem contains vowel (e.g., motoring → motor)<br>SSES → SS (e.g., grasses → grass)<br>但存在过度概括的问题。</p>
+<h2 id="语句分割-Sentence-Segmentation"><a href="#语句分割-Sentence-Segmentation" class="headerlink" title="语句分割(Sentence Segmentation)"></a>语句分割(Sentence Segmentation)</h2><hr>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;语句分割把标点符号作为常用的线索，但是标点符号有时候会是词的一部分。例如句号在句子边界标记和缩写标记(如Mr. or Inc.)之间存在歧义。</p>
+<h1 id="最小编辑距离"><a href="#最小编辑距离" class="headerlink" title="最小编辑距离"></a>最小编辑距离</h1><hr>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;很多NLP处理与两个字符串的相似度有关，两个字符串之间的最小编辑距离定义为将一个字符串转换成另一个字符串所需的最小操作数(如插入、删除、替换等操作)。替换可以被视为删除+插入。对最小编辑距离算法稍加修改，便可以提供两个字符串之间的最小成本对齐。<br>&nbsp; &nbsp;&nbsp; &nbsp;最小编辑距离算法，使用动态规划。设有字符串X、Y，长度分别为n、m，D(i,j)定义为X[1…i]与Y[1…j]之间的编辑距离。因此X、Y的最小编辑距离为D(n,m)。算法核心思想如图：<img src="4.png" alt="" title="最小编辑距离算法的动态规划思想"><br>算法伪代码如图：<img src="5.png" alt="" title="最小编辑距离算法伪代码"></p>
 
                 
 
@@ -231,13 +246,9 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2019/01/31/Study-Algorithm/" data-toggle="tooltip" data-placement="top" title="Study Algorithm">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2018/12/03/Thinking-of-Cache-hit-Rate/" data-toggle="tooltip" data-placement="top" title="Thinking of Cache hit Rate">Next Post &rarr;</a>
+                            <a href="/2019/02/20/Statistical-knowledge-supplement/" data-toggle="tooltip" data-placement="top" title="Statistical knowledge supplement">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -261,7 +272,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="nav">none</ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#标准化-normalization"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">标准化(normalization)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Unix命令"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Unix命令</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#记号赋予器-tokenizer"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">记号赋予器(tokenizer)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Penn-Treebank-tokenization-standard"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Penn Treebank tokenization standard</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#大小写折叠-case-folding"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">大小写折叠(case folding)</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#汉语字符分割：最大匹配算法"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">汉语字符分割：最大匹配算法</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#词形还原和词干提取-Lemmatization-and-Stemming"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">词形还原和词干提取(Lemmatization and Stemming)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Porter-Stemmer算法"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">Porter Stemmer算法</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#语句分割-Sentence-Segmentation"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">语句分割(Sentence Segmentation)</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#最小编辑距离"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">最小编辑距离</span></a></li></ol>
         
         </div>
       </aside>
@@ -281,9 +292,9 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#PAT" title="PAT">PAT</a>
+                          <a class="tag" href="/tags/#NLP" title="NLP">NLP</a>
                         
-                          <a class="tag" href="/tags/#Algorithm" title="Algorithm">Algorithm</a>
+                          <a class="tag" href="/tags/#读书笔记" title="读书笔记">读书笔记</a>
                         
                     </div>
                 </section>
@@ -310,8 +321,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "your-disqus-ID";
-    var disqus_identifier = "https://yoursite/2019/01/31/PAT-Practice/";
-    var disqus_url = "https://yoursite/2019/01/31/PAT-Practice/";
+    var disqus_identifier = "https://yoursite/2019/02/21/study-of-Speech-and-Language-Processing/";
+    var disqus_url = "https://yoursite/2019/02/21/study-of-Speech-and-Language-Processing/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
