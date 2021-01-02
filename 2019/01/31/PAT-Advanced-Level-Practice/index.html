@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Thinking of Cache hit Rate - 静以致远
+          PAT Practice - 静以致远
         
     </title>
 
-    <link rel="canonical" href="https://yoursite/2018/12/03/Thinking-of-Cache-hit-Rate/">
+    <link rel="canonical" href="https://yoursite/2019/01/31/PAT-Advanced-Level-Practice/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -69,7 +69,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('header.jpeg')
+            background-image: url('')
             /*post*/
         
     }
@@ -90,16 +90,16 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#考研" title="考研">考研</a>
+                              <a class="tag" href="/tags/#PAT" title="PAT">PAT</a>
                             
-                              <a class="tag" href="/tags/#组成原理" title="组成原理">组成原理</a>
+                              <a class="tag" href="/tags/#Algorithm" title="Algorithm">Algorithm</a>
                             
                         </div>
-                        <h1>Thinking of Cache hit Rate</h1>
-                        <h2 class="subheading">Cache命中率问题</h2>
+                        <h1>PAT Practice</h1>
+                        <h2 class="subheading">PAT练习</h2>
                         <span class="meta">
                             Posted by 徐斌斌 on
-                            2018-12-03
+                            2019-01-31
                         </span>
                     </div>
                 
@@ -223,99 +223,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h2 id="个人方法归纳"><a href="#个人方法归纳" class="headerlink" title="个人方法归纳"></a>个人方法归纳</h2><hr>
-<p>虚拟存储系统经常考察Cache命中率的问题，主要考虑Cache系统采用全相联映射还是组相联映射、是否发生了置换的行为，并常常结合数组进行考察。<br>对于全相联映射，先计算将目标内容全装入Cache需要多少块，进而计算出需要多少行，访问第一次字总是非命中。如果是数组问题，例如一条指令要访问两个数组元素，且存储在Cache同一行，那么他们会相互淘汰对方，Cache不命中。<br>对于组相联映射，同样计算所需Cache块和组，访问第一次字总是非命中。对于数组情况，如果访问同一个组，两个数组元素可能在不同上，这种情况下Cache是可以命中的。</p>
-<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><hr>
-<p>某计算机的主存地址位数为16位，按字节编址。假定数据Cache中最多存放32个主存块，采用2-路组相联方式，块大小为16B，每块设置了1位有效位。采用一次性写回策略，为此每块设置了1位“脏”位。问：<br>(1) 主存地址中标记、组号和块内地址三部分的位置和位数分别为多少？该数据Cache总位数是多少？<br>(2) 设字长为4B，Cache起始为空,CPU从主存单元0，1，2，……，99中，依次读出100个字(主存一次读出一个字)，并重复按此次序读6次，求命中率。</p>
-<p>解：<br>(1) 主存16位，Cache地址总长度16，块大小16B\(\rightarrow\)块内偏移量为4，Cache存放32主存块且2路组相联\(\rightarrow\)共有16组，组数4位，标记位=16-4-4=8位<br>Cache标记项长度=标记位+脏位+有效位=10位，Cache总位数=32<em>(10+16</em>8)=4416位<br>(2) 每块存储字数=16B/4B=4，存储100个字一共需要块数=100/4=25，Cache总共32块，以2路组相联形式存放，因此每轮访问无需进行置换。第一轮，访问每个块的第一个字时不命中，之后每个块命中。因第一轮已经把100个字全都存入Cache，之后5轮全部命中。命中率=(100<em>6-25)/(100</em>6)=95.8%</p>
-<hr>
-<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">float</span> Dotproduct(<span class="built_in">float</span> x[<span class="number">8</span>], <span class="built_in">float</span> y[<span class="number">8</span>])&#123;</span><br><span class="line">    <span class="built_in">float</span> <span class="built_in">sum</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">int</span> i;</span><br><span class="line">    for (i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++)</span><br><span class="line">        <span class="built_in">sum</span> += x[i] + y[i];</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sum</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>回答下列问题：<br>(1)假定数据Cache采用直接相联映射方式，Cache容量为32字节，每个主存块大小为16字节，编译器将变量sum和i分配在寄存器中，内存按字节编址，数组x存放在0000 0040H开始的32字节的连续存储区中，数组y紧跟在x后进行存放。求该程序访问的命中率。<br>(2)假定数据Cache采用2-路组相联映射方式，Cache容量为32字节，每个主存块大小为8字节，编译器将变量sum和i分配在寄存器中，内存按字节编址，数组x存放在0000 0040H开始的32字节的连续存储区中，数组y紧跟在x后进行存放。求该程序访问的命中率。<br>(3)假定数据Cache采用直接相联映射方式，Cache容量为32字节，每个主存块大小为16字节，编译器将变量sum和i分配在寄存器中，内存按字节编址，数组x存放在0000 0040H开始的32字节的连续存储区中，数组y紧跟在x后进行存放。数组x定位为float[12]，求该程序访问的命中率。</p>
-<p>解：<br>(1) 每个float数组元素占4B，一个块存4个数组元素。x数组和y数组各8个元素，共需4个块。Cache容量为32字节，每个主存块大小为16字节，一行2个块。所以一共需要2行。Cache存储情况如下：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Cache-主存地址</th>
-<th style="text-align:center">40H ~ 50H</th>
-<th style="text-align:center">60H ~ 7FH</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">第0行</td>
-<td style="text-align:center">x[0]~x[3]</td>
-<td style="text-align:center">y[0]~y[3</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">第1行</td>
-<td style="text-align:center">x[4]~x[7]</td>
-<td style="text-align:center">y[0]~y[7]</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><code>sum += x[i] + y[i];</code>每次访问两个数组元素，x[i]和y[i]始终在同一行，相互淘汰对方，因而始终不命中，Cache命中率0；</p>
-<p>(2) 块大小8B，存放2个数组元素，2路组相联，每组2块，16个元素需要4行。Cache存储情况如下：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Cache-主存地址</th>
-<th style="text-align:center">40H ~ 50H</th>
-<th style="text-align:center">60H ~ 7FH</th>
-<th style="text-align:center">80H ~ 8FH</th>
-<th style="text-align:center">90H ~ 9FH</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">第0组</td>
-<td style="text-align:center">x[0]~x[1]</td>
-<td style="text-align:center">x[4]~x[5]</td>
-<td style="text-align:center">y[0]~y[1]</td>
-<td style="text-align:center">y[4]~y[5]</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">第1组</td>
-<td style="text-align:center">x[2]~x[3]</td>
-<td style="text-align:center">x[6]~x[7]</td>
-<td style="text-align:center">y[2]~y[3]</td>
-<td style="text-align:center">y[6]~y[7]</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>x[i]和y[i]虽然在同一组，但是在不同行上，组相联映射不会因此产生冲突。因此访问块内第1个字不命中，第2个字命中，Cache命中率50%。</p>
-<p>(3) 块大小8B，存放4个数组元素，x[12]+y[8]，一共20个数组元素，需要5个块。Cache存储情况如下：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Cache-主存地址</th>
-<th style="text-align:center">40H ~ 5FH</th>
-<th style="text-align:center">60H ~ 7FH</th>
-<th style="text-align:center">80H ~ 9FH</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">第0行</td>
-<td style="text-align:center">x[0]~x[3]</td>
-<td style="text-align:center">x[8]~y[11]</td>
-<td style="text-align:center">y[4]~y[7]</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">第1行</td>
-<td style="text-align:center">x[4]~x[7]</td>
-<td style="text-align:center">y[0]~y[3]</td>
-<td style="text-align:center">null</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>x[i]和y[i]始终不在同一行，每块除去访问第一个字不命中，其余3个字均命中。Cache命中率75%。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>–<br>理解了Cache块的存储形式，理解行、组的含义和构成，这类问题就可以迎刃而解。</p>
+                <p><a href="https://github.com/Xvbb/PAT-Practice" target="_blank" rel="noopener">cpp代码</a></p>
 
                 
 
@@ -324,12 +232,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2019/01/31/PAT-Practice/" data-toggle="tooltip" data-placement="top" title="PAT Practice">&larr; Previous Post</a>
+                            <a href="/2019/01/31/Study-Algorithm/" data-toggle="tooltip" data-placement="top" title="Study Algorithm">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2018/12/01/Review-of-math-for-NEEP/" data-toggle="tooltip" data-placement="top" title="Review of math for NEEP">Next Post &rarr;</a>
+                            <a href="/2019/01/31/PAT-Practice/" data-toggle="tooltip" data-placement="top" title="PAT Practice">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -353,7 +261,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#个人方法归纳"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">个人方法归纳</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#例题"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">例题</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#总结"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">总结</span></a></li></ol>
+          <ol class="nav">none</ol>
         
         </div>
       </aside>
@@ -373,9 +281,9 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#考研" title="考研">考研</a>
+                          <a class="tag" href="/tags/#PAT" title="PAT">PAT</a>
                         
-                          <a class="tag" href="/tags/#组成原理" title="组成原理">组成原理</a>
+                          <a class="tag" href="/tags/#Algorithm" title="Algorithm">Algorithm</a>
                         
                     </div>
                 </section>
@@ -402,8 +310,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "your-disqus-ID";
-    var disqus_identifier = "https://yoursite/2018/12/03/Thinking-of-Cache-hit-Rate/";
-    var disqus_url = "https://yoursite/2018/12/03/Thinking-of-Cache-hit-Rate/";
+    var disqus_identifier = "https://yoursite/2019/01/31/PAT-Advanced-Level-Practice/";
+    var disqus_url = "https://yoursite/2019/01/31/PAT-Advanced-Level-Practice/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
